@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Alex Chen · 多媒体设计师作品集</title>
+  <!-- 字体：Inter + 思源黑体(Noto Sans SC) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 图标库 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #2563EB;
+      --primary-dark: #1d4ed8;
+      --gray-50: #F9FAFB;
+      --gray-100: #F3F4F6;
+      --gray-200: #E5E7EB;
+      --gray-400: #9CA3AF;
+      --gray-600: #4B5563;
+      --gray-800: #1F2937;
+      --gray-900: #111827;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+      --radius: 16px;
+      --transition: 0.25s ease;
+      --font-sans: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    /* 导航栏 */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--gray-900);
+      letter-spacing: -0.5px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      padding: 1.2rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    /* 页面容器 */
+    .page {
+      display: none;
+      animation: fadePage 0.4s ease;
+    }
+    .page.active {
+      display: block;
+    }
+    @keyframes fadePage {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 通用区块 */
+    .section-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    /* 首页英雄区 */
+    .hero {
+      background: linear-gradient(135deg, #eef2ff 0%, #f9fafb 100%);
+      text-align: center;
+      padding: 5rem 2rem 4rem;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--gray-900);
+    }
+    .hero .tag {
+      display: inline-block;
+      background: var(--gray-800);
+      color: white;
+      padding: 0.3rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 0.8rem;
+      letter-spacing: 0.3px;
+    }
+    .hero .intro {
+      max-width: 540px;
+      margin: 1.8rem auto 0;
+      font-size: 1.2rem;
+      color: var(--gray-600);
+      font-weight: 400;
+    }
+    .category-entries {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2.8rem;
+    }
+    .category-btn {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 48px;
+      padding: 0.9rem 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--gray-800);
+      cursor: pointer;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .category-btn i {
+      color: var(--primary);
+    }
+    .category-btn:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    /* 精选作品瀑布流 */
+    .featured-grid {
+      columns: 3;
+      column-gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .featured-item {
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: white;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease, box-shadow var(--transition);
+    }
+    .featured-item.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .featured-item:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .featured-item img {
+      width: 100%;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .featured-item:hover img {
+      transform: scale(1.03);
+    }
+    .featured-caption {
+      padding: 0.8rem 1rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--gray-800);
+    }
+    .featured-caption span {
+      background: var(--gray-100);
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: var(--gray-600);
+    }
+
+    /* 关于我 */
+    .about-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      align-items: center;
+    }
+    .about-avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--gray-200);
+    }
+    .skill-bar {
+      margin: 0.8rem 0;
+    }
+    .skill-label {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+    .progress {
+      height: 8px;
+      background: var(--gray-200);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      border-radius: 10px;
+      transition: width 1s ease;
+    }
+
+    /* 作品分类通用网格 */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.8rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease, box-shadow var(--transition);
+    }
+    .card.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+    .card-img {
+      position: relative;
+      overflow: hidden;
+    }
+    .card-img img {
+      width: 100%;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .card:hover .card-img img {
+      transform: scale(1.05);
+    }
+    .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.65);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      backdrop-filter: blur(6px);
+    }
+    .card-body {
+      padding: 0.9rem 1rem;
+    }
+    .card-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--gray-900);
+    }
+    /* 样机卡片 */
+    .browser-mockup {
+      background: #f1f3f5;
+      border-radius: 12px 12px 0 0;
+      overflow: hidden;
+    }
+    .browser-bar {
+      background: #e9ecef;
+      padding: 0.5rem 0.8rem;
+      display: flex;
+      gap: 6px;
+    }
+    .browser-bar span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ced4da;
+    }
+    .browser-screen img {
+      width: 100%;
+      display: block;
+    }
+    .phone-mockup {
+      background: #1f2937;
+      border-radius: 24px;
+      padding: 10px 6px;
+      max-width: 200px;
+      margin: 0 auto;
+    }
+    .phone-screen {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .phone-screen img {
+      width: 100%;
+      display: block;
+    }
+
+    /* 联系表单 */
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      font-family: inherit;
+      margin-bottom: 1rem;
+      background: white;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    /* 模态详情 */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 24px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--gray-600);
+    }
+    .related-grid {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+    .related-item {
+      width: 100px;
+      cursor: pointer;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .related-item img {
+      width: 100%;
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray-400);
+      border-top: 1px solid var(--gray-200);
+      margin-top: 3rem;
+    }
+    .social-links a {
+      color: var(--gray-600);
+      margin: 0 0.5rem;
+      font-size: 1.3rem;
+      transition: color 0.2s;
+    }
+    .social-links a:hover {
+      color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .featured-grid {
+        columns: 2;
+      }
+      .nav {
+        padding: 0 1rem;
+      }
+    }
+    @media (max-width: 500px) {
+      .featured-grid {
+        columns: 1;
+      }
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-logo">ALEX CHEN</div>
+    <ul class="nav-links">
+      <li><a href="#home" class="active" data-target="home">首页</a></li>
+      <li><a href="#about" data-target="about">关于我</a></li>
+      <li><a href="#graphic" data-target="graphic">平面</a></li>
+      <li><a href="#video" data-target="video">视频</a></li>
+      <li><a href="#web" data-target="web">网页</a></li>
+      <li><a href="#ui" data-target="ui">UI</a></li>
+      <li><a href="#contact" data-target="contact">联系</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- 首页 -->
+    <section id="home" class="page active">
+      <div class="hero">
+        <h1>Alex Chen</h1>
+        <div class="tag">多媒体设计师 / 动态视觉创作者</div>
+        <p class="intro">擅长品牌视觉与动态设计，追求克制、清晰且富有情绪的表达。<br>以极简手法融合数字媒介，创造有温度的视觉体验。</p>
+        <div class="category-entries">
+          <button class="category-btn" data-target="graphic"><i class="fas fa-palette"></i> 平面设计</button>
+          <button class="category-btn" data-target="video"><i class="fas fa-video"></i> 视频作品</button>
+          <button class="category-btn" data-target="web"><i class="fas fa-desktop"></i> 网页设计</button>
+          <button class="category-btn" data-target="ui"><i class="fas fa-mobile-alt"></i> UI设计</button>
+        </div>
+      </div>
+      <div class="section-container">
+        <h2 style="font-weight: 600; margin-bottom: 0.5rem;">精选作品</h2>
+        <div class="featured-grid" id="featuredGrid"></div>
+      </div>
+      <footer>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-behance"></i></a>
+          <a href="#"><i class="fab fa-dribbble"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p style="margin-top: 0.5rem;">© 2026 Alex Chen · 保持简单</p>
+      </footer>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="page">
+      <div class="section-container">
+        <div class="about-grid">
+          <img src="https://i.pravatar.cc/300?img=68" alt="头像" class="about-avatar" loading="lazy">
+          <div style="flex:1;">
+            <h2 style="font-size: 2rem; font-weight: 700;">关于我</h2>
+            <p style="color: var(--gray-600); margin: 1rem 0;">拥有5年多媒体设计经验，专注于品牌视觉、动态影像与数字产品设计。相信好设计是逻辑与直觉的交汇。</p>
+            <p><strong>工具栈：</strong>Photoshop, Illustrator, After Effects, Premiere, Figma, Cinema 4D, Blender</p>
+            <div style="margin-top: 1.8rem;">
+              <div class="skill-bar"><div class="skill-label"><span>Photoshop</span><span>95%</span></div><div class="progress"><div class="progress-fill" style="width:95%"></div></div></div>
+              <div class="skill-bar"><div class="skill-label"><span>Illustrator</span><span>90%</span></div><div class="progress"><div class="progress-fill" style="width:90%"></div></div></div>
+              <div class="skill-bar"><div class="skill-label"><span>After Effects</span><span>88%</span></div><div class="progress"><div class="progress-fill" style="width:88%"></div></div></div>
+              <div class="skill-bar"><div class="skill-label"><span>Figma</span><span>92%</span></div><div class="progress"><div class="progress-fill" style="width:92%"></div></div></div>
+              <div class="skill-bar"><div class="skill-label"><span>Cinema 4D</span><span>70%</span></div><div class="progress"><div class="progress-fill" style="width:70%"></div></div></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 3rem;">
+          <h3>经历</h3>
+          <p><strong>2022–至今</strong> 自由多媒体设计师 · 服务品牌与科技公司</p>
+          <p><strong>2020–2022</strong> 某创意热店 · 视觉设计师</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 平面作品列表 -->
+    <section id="graphic" class="page">
+      <div class="section-container">
+        <h2 style="font-weight: 700;">平面设计</h2>
+        <p style="color: var(--gray-600);">海报 · VI · 画册 · 包装 · 字体实验</p>
+        <div class="portfolio-grid" id="graphicGrid"></div>
+      </div>
+    </section>
+
+    <!-- 视频作品列表 -->
+    <section id="video" class="page">
+      <div class="section-container">
+        <h2 style="font-weight: 700;">视频作品</h2>
+        <p style="color: var(--gray-600);">宣传片 · MG动画 · 混剪 · 短视频</p>
+        <div class="portfolio-grid" id="videoGrid"></div>
+      </div>
+    </section>
+
+    <!-- 网页作品列表 -->
+    <section id="web" class="page">
+      <div class="section-container">
+        <h2 style="font-weight: 700;">网页设计</h2>
+        <p style="color: var(--gray-600);">官网 · 活动页 · 电商 · 后台界面</p>
+        <div class="portfolio-grid" id="webGrid"></div>
+      </div>
+    </section>
+
+    <!-- UI作品列表 -->
+    <section id="ui" class="page">
+      <div class="section-container">
+        <h2 style="font-weight: 700;">UI设计</h2>
+        <p style="color: var(--gray-600);">APP界面 · 小程序 · 图标 · 交互原型</p>
+        <div class="portfolio-grid" id="uiGrid"></div>
+      </div>
+    </section>
+
+    <!-- 联系我 -->
+    <section id="contact" class="page">
+      <div class="section-container" style="max-width: 640px;">
+        <h2 style="font-weight: 700;">联系我</h2>
+        <p style="color: var(--gray-600); margin-bottom: 2rem;">目前开放合作与全职机会，欢迎来聊。</p>
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;">
+          <div><i class="fas fa-envelope"></i> alex@design.me</div>
+          <div><i class="fas fa-phone-alt"></i> +86 138 0000 1234</div>
+          <div><i class="fab fa-weixin"></i> alexchen_design</div>
+        </div>
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('感谢留言，我会尽快回复。');">
+          <input type="text" placeholder="你的名字" required>
+          <input type="email" placeholder="邮箱" required>
+          <textarea rows="4" placeholder="留言内容..."></textarea>
+          <button type="submit" class="btn-primary">发送消息</button>
+        </form>
+        <div class="social-links" style="margin-top: 2rem;">
+          <a href="#"><i class="fab fa-behance"></i></a>
+          <a href="#"><i class="fab fa-dribbble"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 作品详情模态框 -->
+  <div class="modal" id="detailModal">
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+
+  <script>
+    (function() {
+      // ---------- 作品数据 ----------
+      const portfolioData = [
+        // 平面设计 (graphic)
+        { id: 'g1', type: 'graphic', title: '音乐节海报', date: '2025.03', tools: 'PS, AI', background: '为户外音乐节创作主视觉，需体现自由与能量。', approach: '采用高饱和色彩碰撞与粗粝字体，营造不羁氛围。', images: ['https://picsum.photos/id/1015/600/600', 'https://picsum.photos/id/1016/600/600'], video: null, related: ['g2','g4'] },
+        { id: 'g2', type: 'graphic', title: '品牌VI升级', date: '2024.11', tools: 'AI, Figma', background: '本土茶饮品牌年轻化重塑。', approach: '提取茶叶脉络，以极简线条构建识别系统。', images: ['https://picsum.photos/id/1043/600/600', 'https://picsum.photos/id/106/600/600'], video: null, related: ['g1','g3'] },
+        { id: 'g3', type: 'graphic', title: '企业画册', date: '2024.08', tools: 'ID, PS', background: '科技公司年度产品手册。', approach: '大留白与数据可视化结合，强调专业感。', images: ['https://picsum.photos/id/1071/600/800', 'https://picsum.photos/id/1072/600/800'], video: null, related: ['g2','g5'] },
+        { id: 'g4', type: 'graphic', title: '茶叶包装', date: '2024.05', tools: 'PS, AI', background: '高端礼品茶包装设计。', approach: '使用烫金与手工纸纹理，传递东方韵味。', images: ['https://picsum.photos/id/1080/600/600', 'https://picsum.photos/id/1081/600/600'], video: null, related: ['g1','g6'] },
+        { id: 'g5', type: 'graphic', title: '字体海报', date: '2023.12', tools: 'AI', background: '实验性字体排版海报。', approach: '解构汉字笔画，创造视觉节奏。', images: ['https://picsum.photos/id/1084/600/800', 'https://picsum.photos/id/1083/600/800'], video: null, related: ['g3','g7'] },
+        { id: 'g6', type: 'graphic', title: '活动视觉', date: '2023.09', tools: 'PS, AE', background: '潮流市集主视觉及延展。', approach: '霓虹色调与街頭元素融合。', images: ['https://picsum.photos/id/1035/600/600', 'https://picsum.photos/id/1036/600/600'], video: null, related: ['g4','g8'] },
+        { id: 'g7', type: 'graphic', title: '杂志排版', date: '2023.06', tools: 'ID', background: '独立杂志内页设计。', approach: '网格系统与摄影留白，强调阅读节奏。', images: ['https://picsum.photos/id/1040/600/800', 'https://picsum.photos/id/1041/600/800'], video: null, related: ['g5','g8'] },
+        { id: 'g8', type: 'graphic', title: '唱片封面', date: '2022.11', tools: 'PS', background: '电子音乐人专辑封面。', approach: '抽象纹理与数字故障艺术。', images: ['https://picsum.photos/id/1050/600/600', 'https://picsum.photos/id/1051/600/600'], video: null, related: ['g6','g7'] },
+        // 视频作品 (video)
+        { id: 'v1', type: 'video', title: '品牌形象片', date: '2025.02', tools: 'AE, PR, C4D', background: '新消费品牌形象宣传。', approach: '动态图形与实拍结合，突出产品质感。', images: ['https://picsum.photos/id/1018/600/340'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', related: ['v2','v4'] },
+        { id: 'v2', type: 'video', title: 'MG动画科普', date: '2024.10', tools: 'AE, AI', background: '科普类短视频系列。', approach: '扁平化角色与流畅转场。', images: ['https://picsum.photos/id/1019/600/340'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', related: ['v1','v3'] },
+        { id: 'v3', type: 'video', title: '旅行混剪', date: '2024.07', tools: 'PR', background: '个人旅行短片。', approach: '节奏剪辑与色彩统一。', images: ['https://picsum.photos/id/1020/600/340'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', related: ['v2','v5'] },
+        { id: 'v4', type: 'video', title: '产品广告', date: '2024.04', tools: 'C4D, AE', background: '耳机产品三维广告。', approach: '光影与材质表现科技感。', images: ['https://picsum.photos/id/1021/600/340'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', related: ['v1','v6'] },
+        { id: 'v5', type: 'video', title: '活动快剪', date: '2023.11', tools: 'PR, AE', background: '音乐节现场快剪。', approach: '快速剪辑与色彩滤镜。', images: ['https://picsum.photos/id/1022/600/340'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', related: ['v3','v6'] },
+        { id: 'v6', type: 'video', title: 'UI动效展示', date: '2023.08', tools: 'AE, Principle', background: 'APP交互动效合集。', approach: '细腻缓动与微交互。', images: ['https://picsum.photos/id/1023/600/340'], video: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', related: ['v4','v5'] },
+        // 网页作品 (web)
+        { id: 'w1', type: 'web', title: '企业官网改版', date: '2025.01', tools: 'Figma, Webflow', background: 'SAAS企业官网重设计。', approach: '模块化布局与品牌色延续。', images: ['https://picsum.photos/id/1045/800/500'], video: null, related: ['w2','w3'] },
+        { id: 'w2', type: 'web', title: '电商活动页', date: '2024.09', tools: 'Figma', background: '618促销专题页。', approach: '视觉冲击力与转化引导。', images: ['https://picsum.photos/id/1047/800/500'], video: null, related: ['w1','w4'] },
+        { id: 'w3', type: 'web', title: '后台仪表盘', date: '2024.06', tools: 'Figma', background: '数据管理后台界面。', approach: '信息层级清晰，暗色模式。', images: ['https://picsum.photos/id/1048/800/500'], video: null, related: ['w1','w4'] },
+        { id: 'w4', type: 'web', title: '个人博客', date: '2023.10', tools: 'Figma, Next.js', background: '极简风格博客前端。', approach: '排版优先，阅读体验至上。', images: ['https://picsum.photos/id/1049/800/500'], video: null, related: ['w2','w3'] },
+        // UI作品 (ui)
+        { id: 'u1', type: 'ui', title: '音乐流媒体APP', date: '2025.04', tools: 'Figma', background: '概念音乐应用设计。', approach: '沉浸式播放与动态歌词。', images: ['https://picsum.photos/id/1060/400/700'], video: null, related: ['u2','u4'] },
+        { id: 'u2', type: 'ui', title: '健身小程序', date: '2024.12', tools: 'Figma, Illustrator', background: '居家健身打卡小程序。', approach: '活力色彩与圆润组件。', images: ['https://picsum.photos/id/1061/400/700'], video: null, related: ['u1','u3'] },
+        { id: 'u3', type: 'ui', title: '图标系统', date: '2024.08', tools: 'AI, Figma', background: '设计系统图标库。', approach: '统一栅格与线性风格。', images: ['https://picsum.photos/id/1062/400/700'], video: null, related: ['u2','u5'] },
+        { id: 'u4', type: 'ui', title: '组件库', date: '2024.03', tools: 'Figma', background: '内部设计系统组件。', approach: '原子化设计与变体管理。', images: ['https://picsum.photos/id/1063/400/700'], video: null, related: ['u1','u5'] },
+        { id: 'u5', type: 'ui', title: '旅行APP', date: '2023.07', tools: 'Figma', background: '旅行规划应用。', approach: '地图交互与卡片设计。', images: ['https://picsum.photos/id/1064/400/700'], video: null, related: ['u3','u4'] }
+      ];
+
+      // 精选作品ID
+      const featuredIds = ['g1','g4','v1','w2','u1','g6','v3','w3'];
+
+      // 辅助函数
+      function getWorksByIds(ids) {
+        return ids.map(id => portfolioData.find(w => w.id === id)).filter(Boolean);
+      }
+
+      // 渲染精选瀑布流
+      function renderFeatured() {
+        const container = document.getElementById('featuredGrid');
+        if (!container) return;
+        container.innerHTML = '';
+        const works = getWorksByIds(featuredIds);
+        works.forEach(work => {
+          const div = document.createElement('div');
+          div.className = 'featured-item';
+          div.setAttribute('data-id', work.id);
+          const imgSrc = work.images[0];
+          div.innerHTML = `<img src="${imgSrc}" alt="${work.title}" loading="lazy"><div class="featured-caption">${work.title}<span>${work.type==='graphic'?'平面':work.type==='video'?'视频':work.type==='web'?'网页':'UI'}</span></div>`;
+          div.addEventListener('click', () => showDetail(work.id));
+          container.appendChild(div);
+        });
+      }
+
+      // 渲染分类网格
+      function renderCategory(type, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+        const filtered = portfolioData.filter(w => w.type === type);
+        filtered.forEach(work => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.setAttribute('data-id', work.id);
+          let mediaHTML = '';
+          if (type === 'graphic') {
+            mediaHTML = `<div class="card-img"><img src="${work.images[0]}" alt="${work.title}" loading="lazy"></div>`;
+          } else if (type === 'video') {
+            mediaHTML = `<div class="card-img"><img src="${work.images[0]}" alt="${work.title}" loading="lazy"><div class="play-btn"><i class="fas fa-play"></i></div></div>`;
+          } else if (type === 'web') {
+            mediaHTML = `<div class="browser-mockup"><div class="browser-bar"><span></span><span></span><span></span></div><div class="browser-screen"><img src="${work.images[0]}" alt="${work.title}" loading="lazy"></div></div>`;
+          } else if (type === 'ui') {
+            mediaHTML = `<div class="phone-mockup"><div class="phone-screen"><img src="${work.images[0]}" alt="${work.title}" loading="lazy"></div></div>`;
+          }
+          card.innerHTML = mediaHTML + `<div class="card-body"><div class="card-title">${work.title}</div></div>`;
+          card.addEventListener('click', () => showDetail(work.id));
+          container.appendChild(card);
+        });
+      }
+
+      // 渲染所有分类
+      function renderAllCategories() {
+        renderCategory('graphic', 'graphicGrid');
+        renderCategory('video', 'videoGrid');
+        renderCategory('web', 'webGrid');
+        renderCategory('ui', 'uiGrid');
+      }
+
+      // 详情模态
+      function showDetail(workId) {
+        const work = portfolioData.find(w => w.id === workId);
+        if (!work) return;
+        const modal = document.getElementById('detailModal');
+        const content = document.getElementById('modalContent');
+        const typeMap = { graphic:'平面设计', video:'视频作品', web:'网页设计', ui:'UI设计' };
+        let mediaBlock = '';
+        if (work.type === 'video' && work.video) {
+          mediaBlock = `<video controls style="width:100%; border-radius:16px; margin:1rem 0;" src="${work.video}"></video>`;
+        } else {
+          mediaBlock = work.images.map(img => `<img src="${img}" alt="细节图" style="width:100%; border-radius:16px; margin-bottom:1rem;" loading="lazy">`).join('');
+        }
+        const relatedWorks = getWorksByIds(work.related || []);
+        let relatedHTML = '';
+        if (relatedWorks.length) {
+          relatedHTML = '<h4 style="margin-top:2rem;">相关作品</h4><div class="related-grid">' +
+            relatedWorks.map(rw => `<div class="related-item" data-id="${rw.id}"><img src="${rw.images[0]}" alt="${rw.title}" loading="lazy"><small>${rw.title}</small></div>`).join('') +
+            '</div>';
+        }
+        content.innerHTML = `
+          <button class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+          <h2 style="font-weight:700;">${work.title}</h2>
+          <p style="color:var(--gray-600);">${work.date} · 工具：${work.tools} · ${typeMap[work.type] || ''}</p>
+          <p><strong>项目背景：</strong>${work.background}</p>
+          <p><strong>设计思路：</strong>${work.approach}</p>
+          ${mediaBlock}
+          ${relatedHTML}
+        `;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // 关闭事件
+        document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+        // 相关作品点击
+        content.querySelectorAll('.related-item').forEach(el => {
+          el.addEventListener('click', (e) => {
+            const id = el.getAttribute('data-id');
+            if (id) showDetail(id);
+          });
+        });
+      }
+
+      function closeModal() {
+        const modal = document.getElementById('detailModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      // 导航切换
+      function navigateTo(targetId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const targetPage = document.getElementById(targetId);
+        if (targetPage) targetPage.classList.add('active');
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        const activeLink = document.querySelector(`.nav-links a[data-target="${targetId}"]`);
+        if (activeLink) activeLink.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // 如果切换到首页，重新触发精选观察；分类页重新观察卡片
+        setTimeout(observeItems, 100);
+      }
+
+      // 监听导航点击
+      document.querySelectorAll('.nav-links a, .category-btn').forEach(el => {
+        el.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = this.getAttribute('data-target');
+          if (target) {
+            navigateTo(target);
+            // 更新URL hash但不触发hashchange
+            history.pushState(null, null, '#' + target);
+          }
+        });
+      });
+
+      // 处理浏览器前进后退
+      window.addEventListener('popstate', function() {
+        const hash = window.location.hash.replace('#', '');
+        if (hash && document.getElementById(hash)) {
+          navigateTo(hash);
+        } else if (!hash) {
+          navigateTo('home');
+        }
+      });
+
+      // 初始根据hash加载
+      function initialLoad() {
+        const hash = window.location.hash.replace('#', '');
+        if (hash && document.getElementById(hash)) {
+          navigateTo(hash);
+        } else {
+          navigateTo('home');
+        }
+      }
+
+      // 交叉观察器实现淡入动画
+      function observeItems() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        document.querySelectorAll('.card, .featured-item').forEach(el => {
+          observer.observe(el);
+        });
+      }
+
+      // 初始化
+      renderFeatured();
+      renderAllCategories();
+      initialLoad();
+      observeItems();
+
+      // 关闭模态ESC键
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeModal();
+      });
+
+    })();
+  </script>
+</body>
+</html>
